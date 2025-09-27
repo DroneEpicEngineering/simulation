@@ -38,7 +38,7 @@ jobs:
 
   manifest:
     runs-on: ubuntu-22.04
-    needs: build-base  
+    needs: build  
     permissions:
       packages: write
     steps:
