@@ -34,7 +34,7 @@ jobs:
           push: true
           platforms: linux/amd64
           tags: |
-            ${{ env.REGISTRY }}/${{ env.OWNER_NAME }}/${{ env.BASE_IMAGE_NAME }}:latest
+            ${{ env.REGISTRY }}/${{ env.OWNER_NAME }}/${{ env.IMAGE_NAME }}:latest
 
   manifest:
     runs-on: ubuntu-22.04
