@@ -1,4 +1,4 @@
-FROM --platform=amd64 ghcr.io/droneepicengineering/base:latest
+FROM ghcr.io/droneepicengineering/base:latest
 
 ARG USERNAME=dee
 ARG GAZEBO_VERSION=fortress
@@ -21,7 +21,7 @@ RUN sudo usermod -aG dialout "${USERNAME}" && \
     libxcb-xinerama0 libxkbcommon-x11-0 libxcb-cursor-dev \
     && sudo rm -rf /var/lib/apt/lists/*
 
-RUN wget -q https://d176tv9ibo4jno.cloudfront.net/latest/QGroundControl.AppImage && \
+RUN curl -L -o QGroundControl.AppImage https://github.com/mavlink/qgroundcontrol/releases/download/v5.0.7/QGroundControl-x86_64.AppImage && \
     chmod +x ./QGroundControl.AppImage
 
 WORKDIR /home/${USERNAME}
