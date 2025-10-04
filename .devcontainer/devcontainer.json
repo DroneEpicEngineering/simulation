@@ -1,0 +1,24 @@
+{
+    "name": "simulation",
+    "image": "ghcr.io/droneepicengineering/simulation:latest",
+    "remoteUser": "dee",
+    "runArgs": [
+        "--network=host",
+        "--ipc=host",
+        "--volume=/tmp/.X11-unix:/tmp/.X11-unix",
+        "--device=/dev/dri",
+        "--privileged"
+    ],
+    "workspaceMount": "source=${localWorkspaceFolder}/,target=/home/dee/ws/src/simulation,type=bind,consistency=cached",
+    "workspaceFolder": "/home/dee/ws/src/simulation",
+    "containerEnv": {
+        "DISPLAY": "${localEnv:DISPLAY}",
+        "ROS_DOMAIN_ID": "0"
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+            ]
+        }
+    }
+}
