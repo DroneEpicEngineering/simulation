@@ -20,13 +20,19 @@ WORKDIR /home/${USERNAME}
 RUN sudo usermod -aG dialout "${USERNAME}" && \
     sudo apt-get update && \
     sudo apt-get -y --quiet --no-install-recommends install \
-    gstreamer1.0-plugins-bad gstreamer1.0-libav gstreamer1.0-gl \
+    gstreamer1.0-plugins-bad \
+    gstreamer1.0-libav \
+    gstreamer1.0-gl \
+    libqt5gui5 \
     libfuse2 \
-    libxcb-xinerama0 libxkbcommon-x11-0 libxcb-cursor-dev \
+    fuse \
+    libpulse-mainloop-glib0 \
+    libmosquitto-dev \
+    mosquitto \
     && sudo rm -rf /var/lib/apt/lists/*
 
-RUN curl -L -o QGroundControl.AppImage https://github.com/mavlink/qgroundcontrol/releases/download/v5.0.7/QGroundControl-x86_64.AppImage && \
-    chmod +x ./QGroundControl.AppImage
+RUN curl -L -o QGroundControl-x86_64.AppImage https://github.com/mavlink/qgroundcontrol/releases/download/v5.0.7/QGroundControl-x86_64.AppImage && \
+    chmod +x ./QGroundControl-x86_64.AppImage
 
 WORKDIR /home/${USERNAME}
 RUN git clone "https://github.com/PX4/PX4-Autopilot.git" --branch v1.15.4 --recursive && \
