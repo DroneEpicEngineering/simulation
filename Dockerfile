@@ -9,6 +9,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN sudo apt-get update && \
     sudo apt-get -y --quiet --no-install-recommends install \
+    gz-${GAZEBO_VERSION} \
     ros-${ROS_DISTRO}-ros-gz \
     && sudo rm -rf /var/lib/apt/lists/*
 
