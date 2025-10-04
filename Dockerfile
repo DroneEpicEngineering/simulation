@@ -1,7 +1,7 @@
 FROM ghcr.io/droneepicengineering/base:latest
 
 ARG USERNAME=dee
-ARG GAZEBO_VERSION=fortress
+ARG GAZEBO_VERSION=harmonic
 ARG ROS_DISTRO=humble
 
 USER ${USERNAME}
