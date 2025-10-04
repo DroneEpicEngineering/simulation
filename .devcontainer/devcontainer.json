@@ -18,6 +18,11 @@
     "customizations": {
         "vscode": {
             "extensions": [
+                "charliermarsh.ruff",
+                "redhat.vscode-xml",
+                "ms-python.vscode-python-envs",
+                "ms-python.debugpy",
+                "ms-python.python"
             ]
         }
     }
