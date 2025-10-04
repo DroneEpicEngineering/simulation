@@ -27,10 +27,18 @@ def generate_launch_description():
         cmd=[px4_bin.as_posix()],
         additional_env={
             "PX4_SYS_AUTOSTART": "4001",
-            "PX4_SIM_MODEL": "x500",
+            "PX4_SIM_MODEL": "x500_vision",
             "PX4_GZ_MODEL_POSE": "0 0 0.17696 0 0 0",
         },
         output="screen",
+    )
+
+    run_qgroundcontrol = ExecuteProcess(
+        cmd=[(Path.home() / "QGroundControl-x86_64.AppImage").as_posix()], output="screen"
+    )
+
+    run_micrxrcedds_agent = ExecuteProcess(
+        cmd=["MicroXRCEAgent", "udp4", "-p", "8888"], output="screen"
     )
 
     ld = LaunchDescription()
@@ -39,5 +47,7 @@ def generate_launch_description():
     ld.add_action(set_sim_time)
     ld.add_action(run_gazebo_sim)
     ld.add_action(run_autopilot)
+    ld.add_action(run_qgroundcontrol)
+    ld.add_action(run_micrxrcedds_agent)
 
     return ld
