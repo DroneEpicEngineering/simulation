@@ -1,0 +1,17 @@
+{
+    "cmake.ignoreCMakeListsMissing": true,
+    "python.autoComplete.extraPaths": [
+        "/home/dee/ws/build/simulation",
+        "/home/dee/ws/install/simulation/lib/python3.10/site-packages",
+        "/home/dee/ws/install/px4_msgs/local/lib/python3.10/dist-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/dee/ws/build/simulation",
+        "/home/dee/ws/install/simulation/lib/python3.10/site-packages",
+        "/home/dee/ws/install/px4_msgs/local/lib/python3.10/dist-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ]
+}
