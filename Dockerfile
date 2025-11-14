@@ -45,7 +45,7 @@ RUN git clone "https://github.com/p-ranav/csv2.git" --branch v0.1
 WORKDIR /home/${USERNAME}/csv2
 RUN mkdir build && cd build && \
     cmake -DCSV2_BUILD_TESTS=OFF -DCSV2_SAMPLES=OFF .. && \
-    sudo cmake --install . &&
+    sudo cmake --install .
 
 WORKDIR /home/${USERNAME}
 RUN rm -rf csv2
