@@ -41,6 +41,15 @@ ENV PX4_PATH=/home/${USERNAME}/PX4-Autopilot
 WORKDIR ${PX4_PATH}
 RUN make "-j$(nproc)" px4_sitl
 
+RUN git clone "https://github.com/p-ranav/csv2.git" --branch v0.1
+WORKDIR /home/${USERNAME}/csv2
+RUN mkdir build && cd build && \
+    cmake -DCSV2_BUILD_TESTS=OFF -DCSV2_SAMPLES=OFF .. && \
+    sudo cmake --install . &&
+
+WORKDIR /home/${USERNAME}
+RUN rm -rf csv2
+
 ENV ROS_WORKSPACE=/home/${USERNAME}/ws
 WORKDIR ${ROS_WORKSPACE}/src
 RUN git clone "https://github.com/eProsima/Micro-XRCE-DDS-Agent.git" --branch v2.4.2 && \
