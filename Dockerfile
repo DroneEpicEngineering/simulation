@@ -40,15 +40,12 @@ RUN git clone "https://github.com/PX4/PX4-Autopilot.git" --branch v1.15.4 --recu
 ENV PX4_PATH=/home/${USERNAME}/PX4-Autopilot
 WORKDIR ${PX4_PATH}
 RUN make "-j$(nproc)" px4_sitl
-
-RUN git clone "https://github.com/p-ranav/csv2.git" --branch v0.1
-WORKDIR /home/${USERNAME}/csv2
-RUN mkdir build && cd build && \
-    cmake -DCSV2_BUILD_TESTS=OFF -DCSV2_SAMPLES=OFF .. && \
-    sudo cmake --install .
-
-WORKDIR /home/${USERNAME}
-RUN rm -rf csv2
+  
+RUN git clone "https://github.com/p-ranav/csv2.git" --branch v0.1 /usr/src/csv2 && \
+    cd /usr/src/csv2 && \
+    cmake -S . -B build -DCSV2_BUILD_TESTS=OFF && \
+    cmake --install build && \
+    rm -rf /usr/src/csv2
 
 ENV ROS_WORKSPACE=/home/${USERNAME}/ws
 WORKDIR ${ROS_WORKSPACE}/src
