@@ -63,7 +63,7 @@ COPY . simulation
 
 WORKDIR $ROS_WORKSPACE
 RUN source "/opt/ros/${ROS_DISTRO}/setup.bash" && \
-    "${ROS_WORKSPACE}/src/simulation/script/build.bash"
+    "${ROS_WORKSPACE}/src/simulation/scripts/build.bash"
 
 RUN echo "source \"/opt/ros/${ROS_DISTRO}/setup.bash\"" >> "/home/${USERNAME}/.bashrc" && \
     echo "source \"${ROS_WORKSPACE}/install/setup.bash\"" >> "/home/${USERNAME}/.bashrc" && \
