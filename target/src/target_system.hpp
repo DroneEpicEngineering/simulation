@@ -1,3 +1,5 @@
+#include "trajectory_reader.hpp"
+
 #include <gz/sim/System.hh>
 #include <gz/plugin/Register.hh>
 
@@ -9,7 +11,11 @@ namespace target_system
         TargetSystem();
         ~TargetSystem() override;
         void Update(const gz::sim::UpdateInfo &_info, gz::sim::EntityComponentManager &_ecm) override;
+
+    private:
+        TrajectoryReader trajectory_reader_{};
     };
+
 };
 
 GZ_ADD_PLUGIN(

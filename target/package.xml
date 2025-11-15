@@ -4,10 +4,15 @@
   <name>target</name>
   <version>0.0.0</version>
   <description>TODO: Package description</description>
-  <maintainer email="k4aro0@gmail.com">dee</maintainer>
+  <maintainer email="kk307889@student.polsl.pl">dee</maintainer>
   <license>TODO: License declaration</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>gz-cmake3</depend>
+  <depend>gz-sim8</depend>
+  <depend>gz-plugin2</depend>
+  <depend>gz-common5</depend>
 
   <export>
     <build_type>ament_cmake</build_type>
