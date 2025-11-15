@@ -11,9 +11,14 @@ def generate_launch_description():
     px4_path = Path(os.environ.get("PX4_PATH"))
     px4_bin = px4_path / "build" / "px4_sitl_default" / "bin" / "px4"
 
+    resources = [
+        (px4_path / "Tools" / "simulation" / "gz" / "models"),
+        (simulation_share / "models")
+    ]
+
     set_resources = SetEnvironmentVariable(
         "GZ_SIM_RESOURCE_PATH",
-        (px4_path / "Tools" / "simulation" / "gz" / "models").as_posix(),
+        ":".join(resource.as_posix() for resource in resources)        
     )
 
     set_sim_time = SetParameter("use_sim_time", value=True)
