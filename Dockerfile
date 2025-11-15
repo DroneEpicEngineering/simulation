@@ -45,7 +45,7 @@ RUN git clone "https://github.com/p-ranav/csv2.git" --branch v0.1 /home/${USERNA
     cd /home/${USERNAME}/csv2 && \
     sudo cmake -S . -B build -DCSV2_BUILD_TESTS=OFF && \
     sudo cmake --install build && \
-    rm -rf /home/${USERNAME}/csv2
+    sudo rm -rf /home/${USERNAME}/csv2
 
 ENV ROS_WORKSPACE=/home/${USERNAME}/ws
 WORKDIR ${ROS_WORKSPACE}/src
