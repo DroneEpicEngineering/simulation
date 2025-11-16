@@ -4,8 +4,7 @@
 namespace target_system {
 TrajectoryReader::TrajectoryReader() {}
 
-std::vector<TrajectoryPoint>
-TrajectoryReader::read(const std::string &filename) {
+void TrajectoryReader::read(const std::string &filename) {
   if (!reader_.mmap(filename)) {
     throw std::runtime_error("");
   }
@@ -43,6 +42,19 @@ TrajectoryReader::read(const std::string &filename) {
     }
   }
 
-  return trajectory;
+  trajectory_ = trajectory;
+  is_trajectory_read_ = true;
+}
+
+TrajectoryPoint TrajectoryReader::next_point() {
+  return trajectory_.at(trajectory_index_++);
+}
+
+bool TrajectoryReader::is_trajectory_finished() const {
+  return trajectory_index_ >= trajectory_.size(); 
+}
+
+bool TrajectoryReader::is_trajectory_read() const {
+  return is_trajectory_read_;
 }
 } // namespace target_system

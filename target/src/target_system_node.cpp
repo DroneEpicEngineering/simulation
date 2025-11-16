@@ -108,6 +108,8 @@ void TargetSystemNode::execute(
         feedback->header = header;
         feedback->pose = pose;
         goal_handle->publish_feedback(feedback);
+        
+        is_position_updated_ = false;
       }
     }
 

@@ -20,7 +20,7 @@ public:
 
 private:
   TrajectoryReader trajectory_reader_{};
-  TargetSystemNode::SharedPtr node_;
+  std::shared_ptr<TargetSystemNode> node_;
   rclcpp::executors::MultiThreadedExecutor::SharedPtr executor_;
   std::jthread node_thread_;
 };
