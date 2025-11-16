@@ -20,6 +20,8 @@ find_package(gz-plugin2 REQUIRED COMPONENTS register)
 set(GZ_PLUGIN_VER ${gz-plugin2_VERSION_MAJOR})
 find_package(gz-common5 REQUIRED COMPONENTS profiler)
 set(GZ_COMMON_VER ${gz-common5_VERSION_MAJOR})
+find_package(gz-msgs10 REQUIRED)
+find_package(gz-transport13 REQUIRED)
 
 find_package(sim_interfaces REQUIRED)
 find_package(std_msgs REQUIRED)

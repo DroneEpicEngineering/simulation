@@ -1,4 +1,6 @@
 #include "trajectory_reader.hpp"
+
+#include <iostream>
 #include <stdexcept>
 
 namespace target_system {
@@ -37,9 +39,9 @@ void TrajectoryReader::read(const std::string &filename) {
         break;
       }
 
-      trajectory.push_back(tp);
       cell_itr++;
     }
+    trajectory.push_back(tp);
   }
 
   trajectory_ = trajectory;
@@ -51,7 +53,7 @@ TrajectoryPoint TrajectoryReader::next_point() {
 }
 
 bool TrajectoryReader::is_trajectory_finished() const {
-  return trajectory_index_ >= trajectory_.size(); 
+  return is_trajectory_read_ && trajectory_index_ >= trajectory_.size();
 }
 
 bool TrajectoryReader::is_trajectory_read() const {

@@ -59,7 +59,8 @@ rclcpp_action::CancelResponse TargetSystemNode::handle_cancel(
 void TargetSystemNode::handle_accepted(
     const std::shared_ptr<rclcpp_action::ServerGoalHandle<FollowTrajectory>>
         goal_handle) {
-  thread_ = std::jthread([this, goal_handle]() { return execute(goal_handle); });
+  thread_ =
+      std::jthread([this, goal_handle]() { return execute(goal_handle); });
 }
 
 void TargetSystemNode::execute(
@@ -108,7 +109,7 @@ void TargetSystemNode::execute(
         feedback->header = header;
         feedback->pose = pose;
         goal_handle->publish_feedback(feedback);
-        
+
         is_position_updated_ = false;
       }
     }
