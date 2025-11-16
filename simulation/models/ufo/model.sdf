@@ -24,5 +24,6 @@
         </material>
       </visual>
     </link>
+    <plugin filename="/home/dee/ws/src/simulation/install/target/lib/target/libtarget_system_plugin.so" name="target_system::TargetSystem" />
   </model>
 </sdf>

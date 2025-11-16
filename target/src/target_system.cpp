@@ -52,7 +52,7 @@ void TargetSystem::Update(const gz::sim::UpdateInfo &info,
     return;
   }
 
-  if (std::chrono::steady_clock::now() - previous_update_ < 1ms) {
+  if (std::chrono::steady_clock::now() - previous_update_ < 20ms) {
     return;
   }
 
