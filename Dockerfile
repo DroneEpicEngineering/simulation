@@ -13,7 +13,7 @@ RUN sudo wget https://packages.osrfoundation.org/gazebo.gpg -O /usr/share/keyrin
 RUN sudo apt-get update && \
     sudo apt-get -y --quiet --no-install-recommends install \
     gz-${GAZEBO_VERSION} \
-    ros-${ROS_DISTRO}-ros-gz \
+    ros-${ROS_DISTRO}-ros-gzharmonic \
     && sudo rm -rf /var/lib/apt/lists/*
 
 WORKDIR /home/${USERNAME}
@@ -40,6 +40,12 @@ RUN git clone "https://github.com/PX4/PX4-Autopilot.git" --branch v1.15.4 --recu
 ENV PX4_PATH=/home/${USERNAME}/PX4-Autopilot
 WORKDIR ${PX4_PATH}
 RUN make "-j$(nproc)" px4_sitl
+  
+RUN git clone "https://github.com/p-ranav/csv2.git" --branch v0.1 /home/${USERNAME}/csv2 && \
+    cd /home/${USERNAME}/csv2 && \
+    sudo cmake -S . -B build -DCSV2_BUILD_TESTS=OFF && \
+    sudo cmake --install build && \
+    sudo rm -rf /home/${USERNAME}/csv2
 
 ENV ROS_WORKSPACE=/home/${USERNAME}/ws
 WORKDIR ${ROS_WORKSPACE}/src
@@ -49,8 +55,6 @@ RUN git clone "https://github.com/eProsima/Micro-XRCE-DDS-Agent.git" --branch v2
 WORKDIR $ROS_WORKSPACE
 RUN rosdep update && \
     rosdep install --from-paths ${ROS_WORKSPACE} -r -y --ignore-src
-
-WORKDIR $ROS_WORKSPACE
 RUN source "/opt/ros/${ROS_DISTRO}/setup.bash" && \
     colcon build
 
@@ -58,9 +62,11 @@ WORKDIR $ROS_WORKSPACE/src
 COPY . simulation
 
 WORKDIR $ROS_WORKSPACE
-RUN source "/opt/ros/${ROS_DISTRO}/setup.bash"
+RUN source "/opt/ros/${ROS_DISTRO}/setup.bash" && \
+    "${ROS_WORKSPACE}/src/simulation/scripts/build.bash"
 
 RUN echo "source \"/opt/ros/${ROS_DISTRO}/setup.bash\"" >> "/home/${USERNAME}/.bashrc" && \
-    echo "source \"${ROS_WORKSPACE}/install/setup.bash\"" >> "/home/${USERNAME}/.bashrc"
+    echo "source \"${ROS_WORKSPACE}/install/setup.bash\"" >> "/home/${USERNAME}/.bashrc" && \
+    echo "source \"${ROS_WORKSPACE}/src/simulation/install/setup.bash\"" >> "/home/${USERNAME}/.bashrc"
 
 CMD ["/bin/bash"]

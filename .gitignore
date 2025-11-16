@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+# USER DEFINED
+
+build
+install
+log

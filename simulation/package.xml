@@ -9,6 +9,8 @@
 
   <exec_depend>ros2launch</exec_depend>
 
+  <depend>target</depend>
+
   <export>
     <build_type>ament_python</build_type>
   </export>

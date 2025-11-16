@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<sdf version="1.8">
+  <model name="ufo">
+    <pose>0 0 0 0 0 0</pose>
+    <static>true</static>
+    <link name="link">
+      <collision name="collision">
+        <geometry>
+          <sphere>
+            <radius>0.1</radius>
+          </sphere>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <sphere>
+            <radius>0.1</radius>
+          </sphere>
+        </geometry>
+        <material>
+          <ambient>1.0 0.0 0.0 1</ambient>
+          <diffuse>1.0 0.0 0.0 1</diffuse>
+          <specular>1.0 0.0 0.0 1</specular>
+        </material>
+      </visual>
+    </link>
+    <plugin filename="/home/dee/ws/src/simulation/install/target/lib/target/libtarget_system_plugin.so" name="target_system::TargetSystem" />
+  </model>
+</sdf>
