@@ -29,6 +29,7 @@ private:
   void reset();
 
   rclcpp_action::Server<FollowTrajectory>::SharedPtr action_server_;
+  std::jthread thread_;
   std::mutex mutex_;
   bool is_action_in_progress_{false};
   int trajectory_index_{0};
