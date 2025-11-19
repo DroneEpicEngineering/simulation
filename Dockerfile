@@ -63,7 +63,7 @@ RUN source "/opt/ros/${ROS_DISTRO}/setup.bash" && \
 WORKDIR ${ROS_WORKSPACE}/src
 COPY . ${REPO_DIR_NAME}
 
-WORKDIR ${ROS_WORKSPACE}
+WORKDIR ${ROS_WORKSPACE}/src/${REPO_DIR_NAME}
 RUN source "${ROS_WORKSPACE}/install/setup.bash" && \
     "${ROS_WORKSPACE}/src/${REPO_DIR_NAME}/scripts/build.bash"
 

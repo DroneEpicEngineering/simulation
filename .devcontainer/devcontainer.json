@@ -9,8 +9,8 @@
         "--device=/dev/dri",
         "--privileged"
     ],
-    "workspaceMount": "source=${localWorkspaceFolder}/,target=/home/dee/ws/src/simulation,type=bind,consistency=cached",
-    "workspaceFolder": "/home/dee/ws/src/simulation",
+    "workspaceMount": "source=${localWorkspaceFolder}/,target=/home/dee/ws/src/sim,type=bind,consistency=cached",
+    "workspaceFolder": "/home/dee/ws/src/sim",
     "containerEnv": {
         "DISPLAY": "${localEnv:DISPLAY}",
         "ROS_DOMAIN_ID": "0"
