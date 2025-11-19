@@ -42,10 +42,6 @@ def generate_launch_description():
         output="screen",
     )
 
-    run_micrxrcedds_agent = ExecuteProcess(
-        cmd=["MicroXRCEAgent", "udp4", "-p", "8888"], output="screen"
-    )
-
     ld = LaunchDescription()
 
     ld.add_action(set_resources)
@@ -53,6 +49,5 @@ def generate_launch_description():
     ld.add_action(run_gazebo_sim)
     ld.add_action(run_autopilot)
     ld.add_action(run_qgroundcontrol)
-    ld.add_action(run_micrxrcedds_agent)
 
     return ld

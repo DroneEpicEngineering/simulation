@@ -1,9 +1,9 @@
 #include <rclcpp/node.hpp>
 #include <rclcpp_action/rclcpp_action.hpp>
-#include <sim_interfaces/action/follow_trajectory.hpp>
+#include <system_interfaces/action/follow_trajectory.hpp>
 
 namespace target_system {
-using FollowTrajectory = sim_interfaces::action::FollowTrajectory;
+using FollowTrajectory = system_interfaces::action::FollowTrajectory;
 
 class TargetSystemNode : public rclcpp::Node {
 public:

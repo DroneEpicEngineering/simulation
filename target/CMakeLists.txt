@@ -23,7 +23,7 @@ set(GZ_COMMON_VER ${gz-common5_VERSION_MAJOR})
 find_package(gz-msgs10 REQUIRED)
 find_package(gz-transport13 REQUIRED)
 
-find_package(sim_interfaces REQUIRED)
+find_package(system_interfaces REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 
@@ -38,7 +38,7 @@ add_library(target_system_plugin SHARED ${TARGET_SYSTEM_SRC} src/target_system.c
 ament_target_dependencies(target_system_plugin
   rclcpp
   rclcpp_action
-  sim_interfaces
+  system_interfaces
   std_msgs
   geometry_msgs
 )

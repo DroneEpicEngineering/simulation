@@ -7,6 +7,9 @@ ARG ROS_DISTRO=humble
 USER ${USERNAME}
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
+ENV ROS_WORKSPACE=/home/${USERNAME}/ws
+ENV REPO_DIR_NAME=sim
+
 RUN sudo wget https://packages.osrfoundation.org/gazebo.gpg -O /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg && \
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null
 
@@ -47,26 +50,26 @@ RUN git clone "https://github.com/p-ranav/csv2.git" --branch v0.1 /home/${USERNA
     sudo cmake --install build && \
     sudo rm -rf /home/${USERNAME}/csv2
 
-ENV ROS_WORKSPACE=/home/${USERNAME}/ws
 WORKDIR ${ROS_WORKSPACE}/src
 RUN git clone "https://github.com/eProsima/Micro-XRCE-DDS-Agent.git" --branch v2.4.2 && \
     git clone "https://github.com/PX4/px4_msgs.git" --branch "release/1.15"
 
-WORKDIR $ROS_WORKSPACE
+WORKDIR ${ROS_WORKSPACE}
 RUN rosdep update && \
     rosdep install --from-paths ${ROS_WORKSPACE} -r -y --ignore-src
 RUN source "/opt/ros/${ROS_DISTRO}/setup.bash" && \
     colcon build
 
-WORKDIR $ROS_WORKSPACE/src
-COPY . simulation
+WORKDIR ${ROS_WORKSPACE}/src
+COPY --chown=${USERNAME} . ${REPO_DIR_NAME}
 
-WORKDIR $ROS_WORKSPACE
-RUN source "/opt/ros/${ROS_DISTRO}/setup.bash" && \
-    "${ROS_WORKSPACE}/src/simulation/scripts/build.bash"
+WORKDIR ${ROS_WORKSPACE}/src/${REPO_DIR_NAME}
+RUN sudo rm -rf build install log
+RUN source "${ROS_WORKSPACE}/install/setup.bash" && \
+    "${ROS_WORKSPACE}/src/${REPO_DIR_NAME}/scripts/build.bash"
 
 RUN echo "source \"/opt/ros/${ROS_DISTRO}/setup.bash\"" >> "/home/${USERNAME}/.bashrc" && \
     echo "source \"${ROS_WORKSPACE}/install/setup.bash\"" >> "/home/${USERNAME}/.bashrc" && \
-    echo "source \"${ROS_WORKSPACE}/src/simulation/install/setup.bash\"" >> "/home/${USERNAME}/.bashrc"
+    echo "source \"${ROS_WORKSPACE}/src/${REPO_DIR_NAME}/install/setup.bash\"" >> "/home/${USERNAME}/.bashrc"
 
 CMD ["/bin/bash"]

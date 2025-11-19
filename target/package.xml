@@ -18,9 +18,10 @@
 
   <depend>rclcpp</depend>
   <depend>rclcpp_action</depend>
-  <depend>sim_interfaces</depend>
   <depend>std_msgs</depend>
   <depend>geometry_msgs</depend>
+
+  <depend>system_interfaces</depend>
 
   <export>
     <build_type>ament_cmake</build_type>
