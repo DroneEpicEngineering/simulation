@@ -52,17 +52,17 @@ WORKDIR ${ROS_WORKSPACE}/src
 RUN git clone "https://github.com/eProsima/Micro-XRCE-DDS-Agent.git" --branch v2.4.2 && \
     git clone "https://github.com/PX4/px4_msgs.git" --branch "release/1.15"
 
-WORKDIR $ROS_WORKSPACE
+WORKDIR ${ROS_WORKSPACE}
 RUN rosdep update && \
     rosdep install --from-paths ${ROS_WORKSPACE} -r -y --ignore-src
 RUN source "/opt/ros/${ROS_DISTRO}/setup.bash" && \
     colcon build
 
-WORKDIR $ROS_WORKSPACE/src
+WORKDIR ${ROS_WORKSPACE}/src
 COPY . simulation
 
-WORKDIR $ROS_WORKSPACE
-RUN source "/opt/ros/${ROS_DISTRO}/setup.bash" && \
+WORKDIR ${ROS_WORKSPACE}
+RUN source "${ROS_WORKSPACE}/install/setup.bash" && \
     "${ROS_WORKSPACE}/src/simulation/scripts/build.bash"
 
 RUN echo "source \"/opt/ros/${ROS_DISTRO}/setup.bash\"" >> "/home/${USERNAME}/.bashrc" && \
