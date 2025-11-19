@@ -1,6 +1,0 @@
-int32 trajectory_index
----
-bool success
----
-geometry_msgs/Pose pose
-std_msgs/Header header

@@ -6,9 +6,7 @@
                 "/opt/ros/humble/include/**",
                 "/home/dee/ws/src/Micro-XRCE-DDS-Agent/include/**",
                 "/home/dee/ws/src/simulation/target/include/**",
-                "/usr/include/**",
-                "/home/dee/ws/src/simuation/install/sim_interfaces/include/**",
-                "${workspaceFolder}/install/sim_interfaces/include/sim_interfaces"
+                "/usr/include/**"
             ],
             "name": "ROS",
             "intelliSenseMode": "gcc-x64",

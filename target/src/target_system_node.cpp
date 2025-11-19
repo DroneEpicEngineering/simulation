@@ -1,7 +1,7 @@
 #include "target_system_node.hpp"
 
 namespace target_system {
-using FollowTrajectory = sim_interfaces::action::FollowTrajectory;
+using FollowTrajectory = system_interfaces::action::FollowTrajectory;
 
 TargetSystemNode::TargetSystemNode() : rclcpp::Node("target") {
   action_server_ = rclcpp_action::create_server<FollowTrajectory>(
