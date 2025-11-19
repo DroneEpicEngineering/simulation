@@ -64,6 +64,7 @@ WORKDIR ${ROS_WORKSPACE}/src
 COPY --chown=${USERNAME} . ${REPO_DIR_NAME}
 
 WORKDIR ${ROS_WORKSPACE}/src/${REPO_DIR_NAME}
+RUN sudo rm -rf build install log
 RUN source "${ROS_WORKSPACE}/install/setup.bash" && \
     "${ROS_WORKSPACE}/src/${REPO_DIR_NAME}/scripts/build.bash"
 
