@@ -33,7 +33,7 @@ void TargetSystem::PreUpdate(const gz::sim::UpdateInfo &info,
       !trajectory_reader_.is_trajectory_read() &&
       node_->get_trajectory_index() != 0) {
     std::stringstream filename;
-    filename << "/home/dee/ws/src/simulation/data/target_trajectories/"
+    filename << "/home/dee/ws/src/sim/data/target_trajectories/"
                 "resampled_trajectory_data_"
              << node_->get_trajectory_index() << ".csv";
     trajectory_reader_.read(
