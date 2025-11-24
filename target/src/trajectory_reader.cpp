@@ -35,6 +35,15 @@ void TrajectoryReader::read(const std::string &filename) {
       case 3:
         tp.pos_z = std::stod(value);
         break;
+      case 4:
+        tp.vel_x = std::stod(value);
+        break;
+      case 5:
+        tp.vel_y = std::stod(value);
+        break;
+      case 6:
+        tp.vel_z = std::stod(value);
+        break;
       default:
         break;
       }

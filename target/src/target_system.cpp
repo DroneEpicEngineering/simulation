@@ -58,7 +58,7 @@ void TargetSystem::Update(const gz::sim::UpdateInfo &info,
 
   TrajectoryPoint tp = trajectory_reader_.next_point();
   send_set_pose_req(tp.pos_x, tp.pos_y, tp.pos_z);
-  node_->set_position(tp.pos_x, tp.pos_y, tp.pos_z);
+  node_->set_odometry(tp.pos_x, tp.pos_y, tp.pos_z, tp.vel_x, tp.vel_y, tp.vel_z);
   previous_update_ = std::chrono::steady_clock::now();
 }
 
