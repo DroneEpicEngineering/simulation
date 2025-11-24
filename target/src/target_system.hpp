@@ -2,21 +2,27 @@
 #include "trajectory_reader.hpp"
 
 #include <chrono>
+#include <string>
 
+#include <gz/msgs.hh>
 #include <gz/plugin/Register.hh>
 #include <gz/sim/System.hh>
-#include <gz/msgs.hh>
 #include <gz/transport.hh>
 
 #include <rclcpp/executors.hpp>
 
 namespace target_system {
 class TargetSystem : public gz::sim::System,
+                     public gz::sim::ISystemConfigure,
                      public gz::sim::ISystemPreUpdate,
                      public gz::sim::ISystemUpdate {
 public:
   TargetSystem();
   ~TargetSystem() override;
+  void Configure(const gz::sim::Entity &entity,
+                 const std::shared_ptr<const sdf::Element> &sdf,
+                 gz::sim::EntityComponentManager &ecm,
+                 gz::sim::EventManager &event_manager) override;
   void PreUpdate(const gz::sim::UpdateInfo &info,
                  gz::sim::EntityComponentManager &ecm) override;
   void Update(const gz::sim::UpdateInfo &info,
@@ -34,10 +40,13 @@ private:
   gz::msgs::Pose request_;
   gz::msgs::Vector3d request_position_;
   gz::msgs::Boolean response_;
+  std::string world_name_;
+  std::string model_name_;
 };
 
 }; // namespace target_system
 
 GZ_ADD_PLUGIN(target_system::TargetSystem, gz::sim::System,
+              target_system::TargetSystem::ISystemConfigure,
               target_system::TargetSystem::ISystemPreUpdate,
               target_system::TargetSystem::ISystemUpdate)

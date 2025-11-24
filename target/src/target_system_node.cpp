@@ -3,7 +3,8 @@
 namespace target_system {
 using FollowTrajectory = system_interfaces::action::FollowTrajectory;
 
-TargetSystemNode::TargetSystemNode() : rclcpp::Node("target") {
+TargetSystemNode::TargetSystemNode(const std::string &name)
+    : rclcpp::Node(name) {
   action_server_ = rclcpp_action::create_server<FollowTrajectory>(
       this, "follow_trajectory",
       [this](const rclcpp_action::GoalUUID &uuid,
