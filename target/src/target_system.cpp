@@ -1,6 +1,7 @@
 #include "target_system.hpp"
 
 #include <iostream>
+#include <stdexcept>
 
 #include <gz/sim/Model.hh>
 #include <gz/sim/World.hh>
@@ -27,7 +28,7 @@ void TargetSystem::Configure(const gz::sim::Entity &entity,
     request_.set_name(model_name_);
     request_.set_id(entity);
   } else {
-    // throw some exception
+    throw std::runtime_error("Model not valid, cannot setup the plugin.");
   }
 
   auto world_entity = ecm.EntityByComponents(gz::sim::components::World());
@@ -54,13 +55,13 @@ void TargetSystem::Configure(const gz::sim::Entity &entity,
   if (sdf->HasElement("trajectories_directory")) {
     trajectories_directory_ = sdf->Get<std::string>("trajectories_directory");
   } else {
-    // throw some exception
+    throw std::runtime_error("trajectories_directory not specified.");
   }
 
   if (sdf->HasElement("trajectories_filename")) {
     trajectories_filename_ = sdf->Get<std::string>("trajectories_filename");
   } else {
-    // throw some exception
+    throw std::runtime_error("trajectories_filename not specified.");
   }
 }
 
