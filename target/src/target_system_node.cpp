@@ -51,6 +51,9 @@ rclcpp_action::GoalResponse TargetSystemNode::handle_goal(
     const rclcpp_action::GoalUUID &uuid,
     std::shared_ptr<const FollowTrajectory::Goal> goal) {
   (void)uuid;
+  if (goal->trajectory_index <= 0 || goal->trajectory_index >= 100) {
+    return rclcpp_action::GoalResponse::REJECT;
+  }
   return rclcpp_action::GoalResponse::ACCEPT_AND_EXECUTE;
 }
 
