@@ -19,7 +19,7 @@ TargetSystem::~TargetSystem() {}
 void TargetSystem::Configure(const gz::sim::Entity &entity,
                              const std::shared_ptr<const sdf::Element> &sdf,
                              gz::sim::EntityComponentManager &ecm,
-                             gz::sim::EventManager &event_manager) {
+                             gz::sim::EventManager & /*event_manager*/) {
   gz::sim::Model model(entity);
 
   if (model.Valid(ecm)) {
@@ -46,24 +46,43 @@ void TargetSystem::Configure(const gz::sim::Entity &entity,
       executor_->spin();
     }
   });
+
+  if (sdf->HasElement("update_rate")) {
+    update_rate_ = sdf->Get<double>("update_rate");
+  }
+
+  if (sdf->HasElement("trajectories_directory")) {
+    trajectories_directory_ = sdf->Get<std::string>("trajectories_directory");
+  } else {
+    // throw some exception
+  }
+
+  if (sdf->HasElement("trajectories_filename")) {
+    trajectories_filename_ = sdf->Get<std::string>("trajectories_filename");
+  } else {
+    // throw some exception
+  }
 }
 
-void TargetSystem::PreUpdate(const gz::sim::UpdateInfo &info,
-                             gz::sim::EntityComponentManager &ecm) {
+void TargetSystem::PreUpdate(const gz::sim::UpdateInfo & /*info*/,
+                             gz::sim::EntityComponentManager & /*ecm*/) {
   if (node_->is_action_in_progress() &&
       !trajectory_reader_.is_trajectory_read() &&
       node_->get_trajectory_index() != 0) {
     std::stringstream filename;
-    filename << "/home/dee/ws/src/sim/data/target_trajectories/"
-                "resampled_trajectory_data_"
+    filename << trajectories_directory_ << "/" << trajectories_filename_
              << node_->get_trajectory_index() << ".csv";
-    trajectory_reader_.read(
-        filename.str()); // TODO: parametrized filename and directory
+    try {
+      RCLCPP_INFO(node_->get_logger(), filename.str().c_str());
+      trajectory_reader_.read(filename.str());
+    } catch (std::system_error e) {
+      RCLCPP_ERROR(node_->get_logger(), e.what());
+    }
   }
 }
 
-void TargetSystem::Update(const gz::sim::UpdateInfo &info,
-                          gz::sim::EntityComponentManager &ecm) {
+void TargetSystem::Update(const gz::sim::UpdateInfo & /*info*/,
+                          gz::sim::EntityComponentManager & /*ecm*/) {
   if (!node_->is_action_in_progress() ||
       !trajectory_reader_.is_trajectory_read()) {
     return;
@@ -74,7 +93,7 @@ void TargetSystem::Update(const gz::sim::UpdateInfo &info,
     return;
   }
 
-  if (std::chrono::steady_clock::now() - previous_update_ < 20ms) {
+  if (std::chrono::steady_clock::now() - previous_update_ < update_rate_ * 1s) {
     return;
   }
 

@@ -33,15 +33,21 @@ private:
 
   TrajectoryReader trajectory_reader_{};
   std::chrono::steady_clock::time_point previous_update_;
+
   std::shared_ptr<TargetSystemNode> node_;
   rclcpp::executors::MultiThreadedExecutor::SharedPtr executor_;
   std::jthread target_system_node_thread_;
+
   gz::transport::Node transport_node_;
   gz::msgs::Pose request_;
   gz::msgs::Vector3d request_position_;
   gz::msgs::Boolean response_;
+
   std::string world_name_;
   std::string model_name_;
+  std::string trajectories_directory_;
+  std::string trajectories_filename_;
+  double update_rate_{0.02};
 };
 
 }; // namespace target_system
