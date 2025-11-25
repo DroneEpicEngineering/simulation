@@ -3,7 +3,8 @@
 namespace target_system {
 using FollowTrajectory = system_interfaces::action::FollowTrajectory;
 
-TargetSystemNode::TargetSystemNode() : rclcpp::Node("target") {
+TargetSystemNode::TargetSystemNode(const std::string &name)
+    : rclcpp::Node(name) {
   action_server_ = rclcpp_action::create_server<FollowTrajectory>(
       this, "follow_trajectory",
       [this](const rclcpp_action::GoalUUID &uuid,
@@ -28,12 +29,17 @@ int TargetSystemNode::get_trajectory_index() {
   return trajectory_index_;
 }
 
-void TargetSystemNode::set_position(double x, double y, double z) {
+void TargetSystemNode::set_odometry(double pos_x, double pos_y, double pos_z,
+                                    double twist_x, double twist_y,
+                                    double twist_z) {
   std::lock_guard<std::mutex> guard(mutex_);
-  x_ = x;
-  y_ = y;
-  z_ = z;
-  is_position_updated_ = true;
+  pos_x_ = pos_x;
+  pos_y_ = pos_y;
+  pos_z_ = pos_z;
+  twist_x_ = twist_x;
+  twist_y_ = twist_y;
+  twist_z_ = twist_z;
+  is_odometry_updated_ = true;
 }
 
 void TargetSystemNode::set_result(bool result) {
@@ -46,6 +52,9 @@ rclcpp_action::GoalResponse TargetSystemNode::handle_goal(
     const rclcpp_action::GoalUUID &uuid,
     std::shared_ptr<const FollowTrajectory::Goal> goal) {
   (void)uuid;
+  if (goal->trajectory_index <= 0 || goal->trajectory_index >= 100) {
+    return rclcpp_action::GoalResponse::REJECT;
+  }
   return rclcpp_action::GoalResponse::ACCEPT_AND_EXECUTE;
 }
 
@@ -96,11 +105,16 @@ void TargetSystemNode::execute(
         return;
       }
 
-      if (is_position_updated_) {
+      if (is_odometry_updated_) {
         geometry_msgs::msg::Pose pose{};
-        pose.position.x = x_;
-        pose.position.y = y_;
-        pose.position.z = z_;
+        pose.position.x = pos_x_;
+        pose.position.y = pos_y_;
+        pose.position.z = pos_z_;
+
+        geometry_msgs::msg::Twist twist{};
+        twist.linear.x = twist_x_;
+        twist.linear.y = twist_y_;
+        twist.linear.z = twist_z_;
 
         std_msgs::msg::Header header{};
         header.stamp = get_clock()->now();
@@ -108,9 +122,10 @@ void TargetSystemNode::execute(
 
         feedback->header = header;
         feedback->pose = pose;
+        feedback->twist = twist;
         goal_handle->publish_feedback(feedback);
 
-        is_position_updated_ = false;
+        is_odometry_updated_ = false;
       }
     }
 
@@ -122,7 +137,7 @@ void TargetSystemNode::reset() {
   std::lock_guard<std::mutex> guard(mutex_);
   is_action_in_progress_ = false;
   is_action_finished_ = false;
-  is_position_updated_ = false;
+  is_odometry_updated_ = false;
   trajectory_index_ = 0;
 }
 

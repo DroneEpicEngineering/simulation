@@ -24,6 +24,11 @@
         </material>
       </visual>
     </link>
-    <plugin filename="/home/dee/ws/src/sim/install/target/lib/target/libtarget_system_plugin.so" name="target_system::TargetSystem" />
+    <plugin filename="libtarget_system_plugin.so"
+      name="target_system::TargetSystem">
+      <update_rate>0.02</update_rate>
+      <trajectories_directory>/home/dee/ws/src/sim/data/target_trajectories</trajectories_directory>
+      <trajectories_filename>resampled_trajectory_data_</trajectories_filename>
+    </plugin>
   </model>
 </sdf>

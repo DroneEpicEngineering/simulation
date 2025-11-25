@@ -1,3 +1,5 @@
+#include <string>
+
 #include <rclcpp/node.hpp>
 #include <rclcpp_action/rclcpp_action.hpp>
 #include <system_interfaces/action/follow_trajectory.hpp>
@@ -7,10 +9,11 @@ using FollowTrajectory = system_interfaces::action::FollowTrajectory;
 
 class TargetSystemNode : public rclcpp::Node {
 public:
-  explicit TargetSystemNode();
+  explicit TargetSystemNode(const std::string& name);
   bool is_action_in_progress();
   int get_trajectory_index();
-  void set_position(double x, double y, double z);
+  void set_odometry(double pos_x, double pos_y, double pos_z, double twist_x,
+                    double twist_y, double twist_z);
   void set_result(bool result);
 
 private:
@@ -33,9 +36,10 @@ private:
   std::mutex mutex_;
   bool is_action_in_progress_{false};
   int trajectory_index_{0};
-  double x_, y_, z_{0.0};
+  double pos_x_, pos_y_, pos_z_{0.0};
+  double twist_x_, twist_y_, twist_z_{0.0};
   bool result_{false};
   bool is_action_finished_{false};
-  bool is_position_updated_{false};
+  bool is_odometry_updated_{false};
 };
 } // namespace target_system

@@ -7,6 +7,7 @@ namespace target_system {
 struct TrajectoryPoint {
   double time{};
   double pos_x, pos_y, pos_z{};
+  double vel_x, vel_y, vel_z{};
 };
 
 class TrajectoryReader {
