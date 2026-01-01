@@ -2,11 +2,14 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <clocale>
 
 namespace target_system {
 TrajectoryReader::TrajectoryReader() {}
 
 void TrajectoryReader::read(const std::string &filename) {
+  std::setlocale(LC_NUMERIC, "C");
+  
   if (!reader_.mmap(filename)) {
     throw std::runtime_error("");
   }
@@ -17,12 +20,6 @@ void TrajectoryReader::read(const std::string &filename) {
   bool first_row = true;
 
   for (const auto row : reader_) {
-    if (first_row) 
-    {
-      first_row = false;
-      continue;
-    }
-
     TrajectoryPoint tp{};
     int cell_itr{};
 
