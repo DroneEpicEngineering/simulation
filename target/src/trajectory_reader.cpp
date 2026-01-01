@@ -14,7 +14,15 @@ void TrajectoryReader::read(const std::string &filename) {
   std::vector<TrajectoryPoint> trajectory;
 
   const auto header = reader_.header();
+  bool first_row = true;
+
   for (const auto row : reader_) {
+    if (first_row) 
+    {
+      first_row = false;
+      continue;
+    }
+
     TrajectoryPoint tp{};
     int cell_itr{};
 
@@ -24,25 +32,25 @@ void TrajectoryReader::read(const std::string &filename) {
 
       switch (cell_itr) {
       case 0:
-        tp.time = std::stod(value);
+        tp.time = value.empty() ? 0.0 : std::stod(value);
         break;
       case 1:
-        tp.pos_x = std::stod(value);
+        tp.pos_x = value.empty() ? 0.0 : std::stod(value);
         break;
       case 2:
-        tp.pos_y = std::stod(value);
+        tp.pos_y = value.empty() ? 0.0 : std::stod(value);
         break;
       case 3:
-        tp.pos_z = std::stod(value);
+        tp.pos_z = value.empty() ? 0.0 : std::stod(value);
         break;
       case 4:
-        tp.vel_x = std::stod(value);
+        tp.vel_x = value.empty() ? 0.0 : std::stod(value);
         break;
       case 5:
-        tp.vel_y = std::stod(value);
+        tp.vel_y = value.empty() ? 0.0 : std::stod(value);
         break;
       case 6:
-        tp.vel_z = std::stod(value);
+        tp.vel_z = value.empty() ? 0.0 : std::stod(value);
         break;
       default:
         break;
