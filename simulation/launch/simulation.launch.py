@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from ament_index_python import get_package_share_path
+from ament_index_python import get_package_share_path, get_package_prefix
 from launch import LaunchDescription
 from launch.actions import ExecuteProcess, SetEnvironmentVariable
 from launch_ros.actions import SetParameter
@@ -8,6 +8,7 @@ from launch_ros.actions import SetParameter
 
 def generate_launch_description():
     simulation_share = get_package_share_path("simulation")
+    target_prefix = Path(get_package_prefix("target"))
     px4_path = Path(os.environ.get("PX4_PATH"))
     px4_bin = px4_path / "build" / "px4_sitl_default" / "bin" / "px4"
 
@@ -16,8 +17,14 @@ def generate_launch_description():
         (simulation_share / "models"),
     ]
 
+    plugins = [(target_prefix / "lib" / "target")]
+
     set_resources = SetEnvironmentVariable(
         "GZ_SIM_RESOURCE_PATH", ":".join(resource.as_posix() for resource in resources)
+    )
+
+    set_plugins = SetEnvironmentVariable(
+        "GZ_SIM_SYSTEM_PLUGIN_PATH", ":".join(plugin.as_posix() for plugin in plugins)
     )
 
     set_sim_time = SetParameter("use_sim_time", value=True)
@@ -45,6 +52,7 @@ def generate_launch_description():
     ld = LaunchDescription()
 
     ld.add_action(set_resources)
+    ld.add_action(set_plugins)
     ld.add_action(set_sim_time)
     ld.add_action(run_gazebo_sim)
     ld.add_action(run_autopilot)
